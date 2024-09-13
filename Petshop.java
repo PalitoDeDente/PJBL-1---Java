@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Petshop{
    public static main(String[] args){
-   
+      private ArrayList<Tutor> tutor=new ArrayList<Tutor>();
    }   
 }
 
