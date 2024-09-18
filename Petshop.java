@@ -1,5 +1,3 @@
-package pjbl;
-
 	import java.util.ArrayList;
 	import java.util.Scanner;
 	
