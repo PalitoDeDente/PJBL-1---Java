@@ -3,6 +3,8 @@
 	
 	public class Petshop{
 		static Scanner leitor = new Scanner (System.in);
+
+		//LISTA DE TUTORES
 		private static ArrayList<Tutor> tutor = new ArrayList<Tutor>(); // Lista de tutores
 		public static void popularCadastro() {
 			 Tutor t; // Objeto contribuinte.
@@ -31,22 +33,23 @@
 			 tutor.add(t);
 			 System.out.println(t.getnomeTutor()+": cadastrado.");
 			 
-			 } 
+			 }
+
 		public static int geraCodCont(){ // Gera código p/ contribuinte. // CREIO EU QUE DE PRA REUTILIZAR TUDO ISSO AI PRO CONTADOR :P
 			 if (tutor.size()==0)
 				 return 1;
 			 else // Incrementa o código do contribuinte no final da lista.
-				 return tutor.get(tutor.size()-1).getCod()+1; 			 		   
+				 return tutor.get(tutor.size()-1).getCod()+1;
 		}
+
 		public static void cadTutorPets() {
 			Scanner cad = new Scanner (System.in);
-		    String nomeTutor;
 		    int dia=1, mes=1, ano=1;
 		    String ender;
 		    String nomePet = "";
 		    String tipoPet;
-		    nomeTutor = "";
-		    
+		    String nomeTutor = "";
+
 		    do {
 		        System.out.println("Digite o nome do Tutor (vazio encerra cadastro tutor): ");
 		        nomeTutor = cad.nextLine();
@@ -59,6 +62,12 @@
 		                System.out.println("Digite dia (dd), mês (mm) e ano (aaaa) de nascimento do tutor (separados por espaços):");
 		                String dataNascimento = cad.nextLine();
 		                String[] partesData = dataNascimento.split(" ");
+						//Verifica se tem campos suficientes
+						if (partesData.length != 3) {
+							System.out.println("Entrada inválida: por favor, insira o dia, mês e ano separados por espaços.");
+							continue; // Reinicia o loop se o número de partes estiver incorreto
+						}
+
 		                dia = Integer.parseInt(partesData[0]);
 		                mes = Integer.parseInt(partesData[1]);
 		                ano = Integer.parseInt(partesData[2]);
@@ -67,13 +76,20 @@
 		                if (Tutor.valiData(dia, mes, ano)) {
 		                    dataValida = true;
 		                }
-		            } catch (NumberFormatException e) {
+
+						//Verifica o formato das entradas
+					} catch (NumberFormatException e) {
 		                System.out.println("Erro de formato: por favor, insira números válidos.");
 		            }
 		        } while (!dataValida); // Continua até que uma data válida seja inserida
 		        
-		        System.out.println("Digite endereço do tutor/pet:");
-		        ender = cad.nextLine();
+		        do{
+					System.out.println("Digite endereço do tutor/pet:");
+					ender = cad.nextLine();
+					if (ender.equals("")) {
+						System.out.println("Campo de endereço vazio!");
+					}
+				}while(ender.equals(""));
 
 		        int codTutor = geraCodCont();
 		        Tutor t = new Tutor(nomeTutor, dia, mes, ano, ender, codTutor);
@@ -100,46 +116,59 @@
 
 		public static void imprimiCad() {
 			System.out.println("\n--- CADASTRO DE TUTORES E PETS ------------------------------------------------------\n");
-			if (geraCodCont()==1) {
+			if (tutor.size()==0) {
 				System.out.println("Não existem tutores cadastrados.");
 			}
 			for (Tutor t:tutor)
 				System.out.println(t.toString()+"\n"); // precisar criar um toString no Tutor, creio que vai ter que criar um toString no Pets também pra formatar
 			System.out.println("------------------------------------------------------------------------------\n");
 		}
+
 		public static void buscarPets() {
-			if(geraCodCont()==1) {
+			Scanner tela = new Scanner (System.in);
+
+			if(tutor.size()==0) {
 				System.out.println("Não existem tutores cadastrados.");
 			}else{
 				System.out.println("Digite código do tutor a ser localizado: ");
-				int numLeitor = leitor.nextInt();
-				for (Tutor t: tutor){
+				int numLeitor = tela.nextInt();
+				boolean tutorEncontrado = false;
+				for (Tutor t : tutor) {
 					if (t.getCod() == numLeitor) {
 						System.out.println(t.toString());
-						break;
-					}else{
-						System.out.println("Nenhum tutor com o código "+numLeitor+" encontrado.");
+						tutorEncontrado = true;
+						break; // Interrompe o loop após encontrar o tutor
 					}
-				} 
+				}
+
+				if (!tutorEncontrado) {
+					System.out.println("Nenhum tutor com o código " + numLeitor + " encontrado.");
+				}
+
 			}	
 		}
 		public static void excluiPets(){
-			Scanner peg = new Scanner (System.in);
-			if(geraCodCont()==1) {
+			Scanner screen = new Scanner (System.in);
+
+			if(tutor.size()==0) {
 				System.out.println("Não existem tutores cadastrados.");
 			}else{
 				System.out.println("Código do tutor a ser excluido: ");
-				int numLeitor = peg.nextInt();
-				for (Tutor t: tutor){
+				int numLeitor = screen.nextInt();
+				boolean tutorEncontrado = false;
+				for (Tutor t : tutor) {
 					if (t.getCod() == numLeitor) {
-						tutor.remove(numLeitor-1);
-						System.out.println("--- Tutor (+pets) com codigo "+numLeitor+" excluido com sucesso! ---");
-						break;
-					}else{
-						System.out.println("Nenhum tutor com o código "+numLeitor+" encontrado.");
-						break;
+						tutor.remove(t);
+						System.out.println("--- Tutor (+pets) com código " + numLeitor + " excluído com sucesso! ---");
+						tutorEncontrado = true;
+						break; // Interrompe o loop após encontrar e remover o tutor
 					}
 				}
+
+				if (!tutorEncontrado) {
+					System.out.println("Nenhum tutor com o código " + numLeitor + " encontrado.");
+				}
+
 			}		
 		}
 		public static void main(String[] args){	

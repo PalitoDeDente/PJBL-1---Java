@@ -7,9 +7,11 @@ public class Pet{
 		this.nomePet = nomePet;
 		this.tipoPet = tipoPet; 
 	}
+	//RETORNA NOME DO PET
 	public String getnomePet(){
 		return nomePet;
 	}
+	//RETORNA NOME DO PET
 	public String gettipoPet(){
 		return tipoPet;
 	}
