@@ -1,3 +1,5 @@
+package pjbl;
+
 	import java.util.ArrayList;
 	import java.util.Scanner;
 	
@@ -41,7 +43,7 @@
 		public static void cadTutorPets() {
 			Scanner cad = new Scanner (System.in);
 		    String nomeTutor;
-		    int dia, mes, ano;
+		    int dia=1, mes=1, ano=1;
 		    String ender;
 		    String nomePet = "";
 		    String tipoPet;
@@ -53,13 +55,24 @@
 		        if (nomeTutor.equals("")) {
 		            break; // Sai do loop se o nome do tutor estiver vazio
 		        }
+		        boolean dataValida = false;
+		        do {
+		            try {
+		                System.out.println("Digite dia (dd), mês (mm) e ano (aaaa) de nascimento do tutor (separados por espaços):");
+		                String dataNascimento = cad.nextLine();
+		                String[] partesData = dataNascimento.split(" ");
+		                dia = Integer.parseInt(partesData[0]);
+		                mes = Integer.parseInt(partesData[1]);
+		                ano = Integer.parseInt(partesData[2]);
 
-		        System.out.println("Digite dia (dd), mês (mm) e ano (aaaa) de nascimento do tutor (separados por espaços):");
-		        String dataNascimento = cad.nextLine();
-		        String[] partesData = dataNascimento.split(" ");
-		        dia = Integer.parseInt(partesData[0]);
-		        mes = Integer.parseInt(partesData[1]);
-		        ano = Integer.parseInt(partesData[2]);
+		                // Verifica se a data é válida antes de continuar
+		                if (Tutor.valiData(dia, mes, ano)) {
+		                    dataValida = true;
+		                }
+		            } catch (NumberFormatException e) {
+		                System.out.println("Erro de formato: por favor, insira números válidos.");
+		            }
+		        } while (!dataValida); // Continua até que uma data válida seja inserida
 		        
 		        System.out.println("Digite endereço do tutor/pet:");
 		        ender = cad.nextLine();
