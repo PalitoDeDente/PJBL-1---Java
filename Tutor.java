@@ -1,3 +1,5 @@
+package pjbl;
+
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -17,28 +19,28 @@ public class Tutor{
         this.cod = cod;
         this.dataNasc = LocalDate.of(ano,mes,dia);
    }
-	public int getAnoAtual() {
+	public static int getAnoAtual() {
         LocalDate dataSistema = LocalDate.now();
         return dataSistema.getYear();
     }
-	public int getMesAtual() {
+	public static int getMesAtual() {
         LocalDate dataSistema = LocalDate.now();
         // Retorna o ano atual
         return dataSistema.getMonth().getValue();
     }
-	public int getDiaAtual() {
+	public static int getDiaAtual() {
         LocalDate dataSistema = LocalDate.now();
         // Retorna o ano atual
-        return dataSistema.getYear();
+        return dataSistema.getDayOfMonth();
     }
 	
-	public boolean Bissexto(int ano) {
+	public static boolean bissexto(int ano) {
 	        return (ano % 4 == 0);
 	}
-	public boolean Validata(int dia, int mes, int ano) {
-	    // Verifica se o ano é maior que o ano atual
+	public static boolean valiData(int dia, int mes, int ano) {
+	    String e = "Data inválida, tente novamente";
 	    if (ano > getAnoAtual()) {
-	        System.out.println("Data inválida: programa encerrado!");
+	        System.out.println(e);
 	        return false;
 	    }
 	    
@@ -46,7 +48,7 @@ public class Tutor{
 	    if (ano == getAnoAtual()) {
 	        // Verifica se o mês é inválido ou maior que o mês atual
 	        if (mes > getMesAtual() || mes < 1 || mes > 12) {
-	            System.out.println("Data inválida: programa encerrado!");
+		        System.out.println(e);
 	            return false;
 	        }
 	        
@@ -54,7 +56,7 @@ public class Tutor{
 	        if (mes == getMesAtual()) {
 	            // Verifica se o dia é maior que o dia atual
 	            if (dia > getDiaAtual()) {
-	                System.out.println("Data inválida: programa encerrado!");
+	    	        System.out.println(e);
 	                return false;
 	            }
 	        }
@@ -63,7 +65,7 @@ public class Tutor{
 	        int maxDia;
 	        switch (mes) {
 	            case 2:
-	                maxDia = Bissexto(ano) ? 29 : 28;
+	                maxDia = bissexto(ano) ? 29 : 28;
 	                break;
 	            case 4: case 6: case 9: case 11:
 	                maxDia = 30;
@@ -75,7 +77,7 @@ public class Tutor{
 
 	        // Verifica se o dia é válido para o mês
 	        if (dia < 1 || dia > maxDia) {
-	            System.out.println("Data inválida: programa encerrado!");
+		        System.out.println(e);
 	            return false;
 	        }
 	    }
