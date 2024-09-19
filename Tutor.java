@@ -42,7 +42,7 @@ public class Tutor{
 	}
 
 	public static boolean valiData(int dia, int mes, int ano) {
-		String e = "Data inválida, tente novamente";
+		String e = "Data inválida, tente novamente.";
 
 		// Verifica se o ano é válido
 		if (ano > getAnoAtual() || ano < 1) {
