@@ -43,7 +43,6 @@
 		}
 
 		public static void cadTutorPets() {
-			Scanner cad = new Scanner (System.in);
 		    int dia=1, mes=1, ano=1;
 		    String ender;
 		    String nomePet = "";
@@ -52,7 +51,7 @@
 
 		    do {
 		        System.out.println("Digite o nome do Tutor (vazio encerra cadastro tutor): ");
-		        nomeTutor = cad.nextLine();
+		        nomeTutor = leitor.nextLine();clearBuffer(leitor);
 		        if (nomeTutor.equals("")) {
 		            break; // Sai do loop se o nome do tutor estiver vazio
 		        }
@@ -60,7 +59,7 @@
 		        do {
 		            try {
 		                System.out.println("Digite dia (dd), mês (mm) e ano (aaaa) de nascimento do tutor (separados por espaços):");
-		                String dataNascimento = cad.nextLine();
+		                String dataNascimento = leitor.nextLine();clearBuffer(leitor);
 		                String[] partesData = dataNascimento.split(" ");
 						//Verifica se tem campos suficientes
 						if (partesData.length != 3) {
@@ -85,7 +84,7 @@
 		        
 		        do{
 					System.out.println("Digite endereço do tutor/pet:");
-					ender = cad.nextLine();
+					ender = leitor.nextLine();clearBuffer(leitor);
 					if (ender.equals("")) {
 						System.out.println("Campo de endereço vazio!");
 					}
@@ -96,13 +95,13 @@
 
 		        do {
 		            System.out.println("Digite nome do pet (vazio encerra cadastro pet): ");
-		            nomePet = cad.nextLine();
+		            nomePet = leitor.nextLine();clearBuffer(leitor);
 		            if (nomePet.equals("")) {
 		                break; // Sai do loop se o nome do pet estiver vazio
 		            }
 
 		            System.out.println("Digite tipo do pet:");
-		            tipoPet = cad.nextLine(); // Use nextLine para pegar a string inteira
+		            tipoPet = leitor.nextLine(); clearBuffer(leitor);// Use nextLine para pegar a string inteira
 
 		            t.incluiPet(nomePet, tipoPet);
 		            System.out.println("--- Pet cadastrado ---");
@@ -125,13 +124,22 @@
 		}
 
 		public static void buscarPets() {
-			Scanner tela = new Scanner (System.in);
 
 			if(tutor.size()==0) {
 				System.out.println("Não existem tutores cadastrados.");
 			}else{
-				System.out.println("Digite código do tutor a ser localizado: ");
-				double numLeitor = tela.nextDouble();
+				double numLeitor=0;
+				while (true) {
+					System.out.println("Digite o código do tutor a ser localizado: ");
+					//verifica se a proxima entrada esta no formato valido
+					if (leitor.hasNextDouble()) {
+						numLeitor = leitor.nextDouble(); clearBuffer(leitor); // Lê o código do tutor se for um número válido
+						break; // Se a entrada for válida, sai do loop
+					} else {
+						System.out.println("Erro: Entrada inválida. Por favor, insira um número válido.");
+						leitor.next(); // Limpa a entrada inválida do buffer
+					}
+				}
 				boolean tutorEncontrado = false;
 				for (Tutor t : tutor) {
 					if (t.getCod() == numLeitor) {
@@ -148,13 +156,22 @@
 			}	
 		}
 		public static void excluiPets(){
-			Scanner screen = new Scanner (System.in);
-
 			if(tutor.size()==0) {
 				System.out.println("Não existem tutores cadastrados.");
 			}else{
-				System.out.println("Código do tutor a ser excluido: ");
-				double numLeitor = screen.nextDouble();
+				double numLeitor=0;
+
+				while (true) {
+					System.out.println("Digite o código do tutor a ser localizado: ");
+					//verifica se a proxima entrada esta no formato valido
+					if (leitor.hasNextDouble()) {
+						numLeitor = leitor.nextDouble(); clearBuffer(leitor); // Lê o código do tutor se for um número válido
+						break; // Se a entrada for válida, sai do loop
+					} else {
+						System.out.println("Erro: Entrada inválida. Por favor, insira um número válido.");
+						leitor.next(); // Limpa a entrada inválida do buffer
+					}
+				}
 				boolean tutorEncontrado = false;
 				for (Tutor t : tutor) {
 					if (t.getCod() == numLeitor) {
@@ -203,6 +220,11 @@
 		             default:
 		                System.out.println("Opção inválida! Tente novamente.");
 		          }
+			}
+		}
+		private static void clearBuffer(Scanner scanner) {
+			if (scanner.hasNextLine()) {
+				scanner.nextLine();
 			}
 		}
 	}
