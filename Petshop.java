@@ -131,7 +131,7 @@
 				System.out.println("Não existem tutores cadastrados.");
 			}else{
 				System.out.println("Digite código do tutor a ser localizado: ");
-				int numLeitor = tela.nextInt();
+				double numLeitor = tela.nextDouble();
 				boolean tutorEncontrado = false;
 				for (Tutor t : tutor) {
 					if (t.getCod() == numLeitor) {
@@ -154,7 +154,7 @@
 				System.out.println("Não existem tutores cadastrados.");
 			}else{
 				System.out.println("Código do tutor a ser excluido: ");
-				int numLeitor = screen.nextInt();
+				double numLeitor = screen.nextDouble();
 				boolean tutorEncontrado = false;
 				for (Tutor t : tutor) {
 					if (t.getCod() == numLeitor) {
